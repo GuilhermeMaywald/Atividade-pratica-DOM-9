@@ -36,32 +36,25 @@ let listaProdutos = [
     }
 ];
 
-function listarProdutosNaTabela(filtrados = undefined) { 
+function listarProdutosNaTabela() { 
     let trTds = ""; 
-    let lista = []; 
     let resultado = document.getElementById("resultado"); 
 
-    lista = filtrados === undefined ? listaProdutos : filtrados; 
+    let valorTotalCompra = listaProdutos.reduce(function(total, atual){
+        return total + (atual.quantidade * atual.valor);
+    }, 0);
 
-    lista.forEach((produto) => { 
-        trTds += `<tr><td>${produto.id}</td>`;
-        trTds += `<td>${produto.produto}</td>`;
+    listaProdutos.forEach((produto) => { 
+        // trTds += `<tr><td>${produto.id}</td>`;
+        trTds += `<tr><td>${produto.produto}</td>`;
         trTds += `<td>${produto.medida}</td>`;
         trTds += `<td>${produto.quantidade}</td>`;
         trTds += `<td>${produto.valor}</td></tr>`;
     });
+    trTds += `<tr><td colspan='4'><strong>O Valor total da compra é: ${valorTotalCompra}</strong></td></tr>`
+
     resultado.innerHTML = trTds; 
-
-    let valoresListaProdutos = listaProdutos.map(function(item){
-        return item.valor;
-    });
-    
-    valorTotal = valoresListaProdutos.reduce(function(total, medida){
-        return total += medida;
-    });
 }
-
-
 
 // AO CARREGAR A PAGINA A LISTA JA E EXIBIDA
 addEventListener("load", () => listarProdutosNaTabela());
